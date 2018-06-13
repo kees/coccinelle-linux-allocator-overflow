@@ -1,0 +1,130 @@
+// Fix redundant parens around sizeof().
+@@
+expression HANDLE;
+type TYPE;
+expression THING, E;
+@@
+
+(
+  %alloc%(HANDLE,
+-	(sizeof(TYPE)) * E
++	sizeof(TYPE) * E
+  , ...)
+|
+  %alloc%(HANDLE,
+-	(sizeof(THING)) * E
++	sizeof(THING) * E
+  , ...)
+)
+
+// Drop single-byte sizes and redundant parens.
+@@
+expression HANDLE;
+expression COUNT;
+typedef u8;
+typedef __u8;
+@@
+
+(
+  %alloc%(HANDLE,
+-	sizeof(u8) * (COUNT)
++	COUNT
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(__u8) * (COUNT)
++	COUNT
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(char) * (COUNT)
++	COUNT
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(unsigned char) * (COUNT)
++	COUNT
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(u8) * COUNT
++	COUNT
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(__u8) * COUNT
++	COUNT
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(char) * COUNT
++	COUNT
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(unsigned char) * COUNT
++	COUNT
+  , ...)
+)
+
+// 2-factor product with sizeof(type/expression) and identifier or constant.
+@@
+expression HANDLE;
+type TYPE;
+expression THING;
+identifier COUNT_ID;
+constant COUNT_CONST;
+@@
+
+(
+  %alloc%(HANDLE,
+-	sizeof(TYPE) * (COUNT_ID)
++	array_size(COUNT_ID, sizeof(TYPE))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE) * COUNT_ID
++	array_size(COUNT_ID, sizeof(TYPE))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE) * (COUNT_CONST)
++	array_size(COUNT_CONST, sizeof(TYPE))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE) * COUNT_CONST
++	array_size(COUNT_CONST, sizeof(TYPE))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING) * (COUNT_ID)
++	array_size(COUNT_ID, sizeof(THING))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING) * COUNT_ID
++	array_size(COUNT_ID, sizeof(THING))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING) * (COUNT_CONST)
++	array_size(COUNT_CONST, sizeof(THING))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING) * COUNT_CONST
++	array_size(COUNT_CONST, sizeof(THING))
+  , ...)
+)
+
+// 2-factor product, only identifiers.
+@@
+expression HANDLE;
+identifier SIZE, COUNT;
+@@
+
+  %alloc%(HANDLE,
+-	SIZE * COUNT
++	array_size(COUNT, SIZE)
+  , ...)

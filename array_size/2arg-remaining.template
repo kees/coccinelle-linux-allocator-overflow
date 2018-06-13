@@ -1,0 +1,99 @@
+// Any remaining multi-factor products, first at least 3-factor products,
+// when they're not all constants...
+@@
+expression HANDLE;
+expression E1, E2, E3;
+constant C1, C2, C3;
+@@
+
+(
+  %alloc%(HANDLE, C1 * C2 * C3, ...)
+|
+  %alloc%(HANDLE,
+-	(E1) * E2 * E3
++	array3_size(E1, E2, E3)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	(E1) * (E2) * E3
++	array3_size(E1, E2, E3)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	(E1) * (E2) * (E3)
++	array3_size(E1, E2, E3)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	E1 * E2 * E3
++	array3_size(E1, E2, E3)
+  , ...)
+)
+
+// And then all remaining 2 factors products when they're not all constants,
+// keeping sizeof() as the second factor argument.
+@@
+expression HANDLE;
+expression THING, E1, E2;
+type TYPE;
+constant C1, C2, C3;
+@@
+
+(
+  %alloc%(HANDLE, sizeof(THING) * C2, ...)
+|
+  %alloc%(HANDLE, sizeof(TYPE) * C2, ...)
+|
+  %alloc%(HANDLE, C1 * C2 * C3, ...)
+|
+  %alloc%(HANDLE, C1 * C2, ...)
+|
+- %alloc%
++ %calloc%
+  (HANDLE,
+-	sizeof(TYPE) * (E2)
++	E2, sizeof(TYPE)
+  , ...)
+|
+- %alloc%
++ %calloc%
+  (HANDLE,
+-	sizeof(TYPE) * E2
++	E2, sizeof(TYPE)
+  , ...)
+|
+- %alloc%
++ %calloc%
+  (HANDLE,
+-	sizeof(THING) * (E2)
++	E2, sizeof(THING)
+  , ...)
+|
+- %alloc%
++ %calloc%
+  (HANDLE,
+-	sizeof(THING) * E2
++	E2, sizeof(THING)
+  , ...)
+|
+- %alloc%
++ %calloc%
+  (HANDLE,
+-	(E1) * E2
++	E1, E2
+  , ...)
+|
+- %alloc%
++ %calloc%
+  (HANDLE,
+-	(E1) * (E2)
++	E1, E2
+  , ...)
+|
+- %alloc%
++ %calloc%
+  (HANDLE,
+-	E1 * E2
++	E1, E2
+  , ...)
+)

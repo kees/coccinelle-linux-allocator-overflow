@@ -1,0 +1,138 @@
+// 3-factor product with 1 sizeof(type) or sizeof(expression), with
+// redundant parens removed.
+@@
+expression HANDLE;
+expression THING;
+identifier STRIDE, COUNT;
+type TYPE;
+@@
+
+(
+  %alloc%(HANDLE,
+-	sizeof(TYPE) * (COUNT) * (STRIDE)
++	array3_size(COUNT, STRIDE, sizeof(TYPE))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE) * (COUNT) * STRIDE
++	array3_size(COUNT, STRIDE, sizeof(TYPE))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE) * COUNT * (STRIDE)
++	array3_size(COUNT, STRIDE, sizeof(TYPE))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE) * COUNT * STRIDE
++	array3_size(COUNT, STRIDE, sizeof(TYPE))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING) * (COUNT) * (STRIDE)
++	array3_size(COUNT, STRIDE, sizeof(THING))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING) * (COUNT) * STRIDE
++	array3_size(COUNT, STRIDE, sizeof(THING))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING) * COUNT * (STRIDE)
++	array3_size(COUNT, STRIDE, sizeof(THING))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING) * COUNT * STRIDE
++	array3_size(COUNT, STRIDE, sizeof(THING))
+  , ...)
+)
+
+// 3-factor product with 2 sizeof(variable), with redundant parens removed.
+@@
+expression HANDLE;
+expression THING1, THING2;
+identifier COUNT;
+type TYPE1, TYPE2;
+@@
+
+(
+  %alloc%(HANDLE,
+-	sizeof(TYPE1) * sizeof(TYPE2) * COUNT
++	array3_size(COUNT, sizeof(TYPE1), sizeof(TYPE2))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE1) * sizeof(THING2) * (COUNT)
++	array3_size(COUNT, sizeof(TYPE1), sizeof(TYPE2))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING1) * sizeof(THING2) * COUNT
++	array3_size(COUNT, sizeof(THING1), sizeof(THING2))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(THING1) * sizeof(THING2) * (COUNT)
++	array3_size(COUNT, sizeof(THING1), sizeof(THING2))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE1) * sizeof(THING2) * COUNT
++	array3_size(COUNT, sizeof(TYPE1), sizeof(THING2))
+  , ...)
+|
+  %alloc%(HANDLE,
+-	sizeof(TYPE1) * sizeof(THING2) * (COUNT)
++	array3_size(COUNT, sizeof(TYPE1), sizeof(THING2))
+  , ...)
+)
+
+// 3-factor product, only identifiers, with redundant parens removed.
+@@
+expression HANDLE;
+identifier STRIDE, SIZE, COUNT;
+@@
+
+(
+  %alloc%(HANDLE,
+-	(COUNT) * STRIDE * SIZE
++	array3_size(COUNT, STRIDE, SIZE)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	COUNT * (STRIDE) * SIZE
++	array3_size(COUNT, STRIDE, SIZE)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	COUNT * STRIDE * (SIZE)
++	array3_size(COUNT, STRIDE, SIZE)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	(COUNT) * (STRIDE) * SIZE
++	array3_size(COUNT, STRIDE, SIZE)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	COUNT * (STRIDE) * (SIZE)
++	array3_size(COUNT, STRIDE, SIZE)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	(COUNT) * STRIDE * (SIZE)
++	array3_size(COUNT, STRIDE, SIZE)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	(COUNT) * (STRIDE) * (SIZE)
++	array3_size(COUNT, STRIDE, SIZE)
+  , ...)
+|
+  %alloc%(HANDLE,
+-	COUNT * STRIDE * SIZE
++	array3_size(COUNT, STRIDE, SIZE)
+  , ...)
+)
