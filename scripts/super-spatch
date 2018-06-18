@@ -1,0 +1,13 @@
+#!/bin/bash
+# Parallel execution of Coccinelle in patch mode can result in interleaved
+# output. This solve the problem by merging the results at completion time.
+set -e
+MAX=$(getconf _NPROCESSORS_ONLN)
+dir=$(mktemp -d spatch-XXXXXX)
+for i in $(seq 0 $(( MAX - 1 )) ); do
+	spatch -max $MAX -index $i -very_quiet "$@" > $dir/$i.out &
+done
+wait
+cat $dir/*.out
+rm -f $dir/*.out
+rmdir $dir
