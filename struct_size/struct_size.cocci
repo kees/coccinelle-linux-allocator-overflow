@@ -6,9 +6,15 @@ identifier VAR, ELEMENT;
 expression COUNT;
 @@
 
+(
 - alloc(sizeof(*VAR) + COUNT * sizeof(*VAR->ELEMENT)
 + alloc(struct_size(VAR, ELEMENT, COUNT)
   , ...)
+|
+- alloc(sizeof(*VAR) + (COUNT * sizeof(*VAR->ELEMENT))
++ alloc(struct_size(VAR, ELEMENT, COUNT)
+  , ...)
+)
 
 // mr = kzalloc(sizeof(*mr) + m * sizeof(mr->map[0]), GFP_KERNEL);
 @@
@@ -17,9 +23,15 @@ identifier VAR, ELEMENT;
 expression COUNT;
 @@
 
+(
 - alloc(sizeof(*VAR) + COUNT * sizeof(VAR->ELEMENT[0])
 + alloc(struct_size(VAR, ELEMENT, COUNT)
   , ...)
+|
+- alloc(sizeof(*VAR) + (COUNT * sizeof(VAR->ELEMENT[0]))
++ alloc(struct_size(VAR, ELEMENT, COUNT)
+  , ...)
+)
 
 // Same pattern, but can't trivially locate the trailing element name,
 // or variable name.
@@ -55,9 +67,15 @@ identifier VAR, ELEMENT;
 expression COUNT;
 @@
 
+(
 - alloc(HANDLE, sizeof(*VAR) + COUNT * sizeof(*VAR->ELEMENT)
 + alloc(HANDLE, struct_size(VAR, ELEMENT, COUNT)
   , ...)
+|
+- alloc(HANDLE, sizeof(*VAR) + (COUNT * sizeof(*VAR->ELEMENT))
++ alloc(HANDLE, struct_size(VAR, ELEMENT, COUNT)
+  , ...)
+)
 
 // mr = kzalloc(sizeof(*mr) + m * sizeof(mr->map[0]), GFP_KERNEL);
 @@
@@ -67,9 +85,15 @@ identifier VAR, ELEMENT;
 expression COUNT;
 @@
 
+(
 - alloc(HANDLE, sizeof(*VAR) + COUNT * sizeof(VAR->ELEMENT[0])
 + alloc(HANDLE, struct_size(VAR, ELEMENT, COUNT)
   , ...)
+|
+- alloc(HANDLE, sizeof(*VAR) + (COUNT * sizeof(VAR->ELEMENT[0]))
++ alloc(HANDLE, struct_size(VAR, ELEMENT, COUNT)
+  , ...)
+)
 
 // Same pattern, but can't trivially locate the trailing element name,
 // or variable name.
