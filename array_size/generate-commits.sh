@@ -2,7 +2,7 @@
 
 BASE=$(dirname $0)
 SCRIPTS="$BASE"/../scripts/
-OUT=$(mktemp -d array_size-XXXXXX)
+OUT=$(mktemp --tmpdir -d array_size-XXXXXX)
 
 # Unfortunately, "make coccicheck MODE=patch COCCI=path/to/our.cocci" can't
 # be used because it interleaves the patch output. Instead, use the wrapper
@@ -30,7 +30,7 @@ for i in $(cat "$BASE"/order.txt); do
 		$ARGS \
 		--cocci-file $BASE/$i.cocci \
 		--dir . \
-		2>"$OUT"/$i.err | filterdiff -p1 -x 'tools/*' . | \
+		2>"$OUT"/$i.err | filterdiff -p1 -x 'tools/*' | \
 		tee "$OUT"/$i.patch
 	grep -v 'files match' "$OUT"/$i.err
 	if [ -s "$OUT"/$i.patch ]; then
