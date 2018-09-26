@@ -1,5 +1,8 @@
 #!/bin/bash
 
+BASE=$(dirname $0)
+cd "$BASE" || exit 1
+
 rm -f *.cocci order.txt
 
 first=
