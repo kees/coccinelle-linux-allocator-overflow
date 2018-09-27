@@ -3,7 +3,7 @@
 # output. This solve the problem by merging the results at completion time.
 set -e
 MAX=$(getconf _NPROCESSORS_ONLN)
-dir=$(mktemp -d spatch-XXXXXX)
+dir=$(mktemp --tmpdir -d super-spatch-XXXXXX)
 for i in $(seq 0 $(( MAX - 1 )) ); do
 	spatch -max $MAX -index $i -very_quiet "$@" > $dir/$i.out &
 done
