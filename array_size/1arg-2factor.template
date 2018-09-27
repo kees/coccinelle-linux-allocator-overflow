@@ -1,22 +1,3 @@
-// Fix redundant parens around sizeof().
-@@
-expression HANDLE;
-type TYPE;
-expression THING, E;
-@@
-
-(
-  %alloc%(HANDLE,
--	(sizeof(TYPE)) * E
-+	sizeof(TYPE) * E
-  , ...)
-|
-  %alloc%(HANDLE,
--	(sizeof(THING)) * E
-+	sizeof(THING) * E
-  , ...)
-)
-
 // Drop single-byte sizes and redundant parens.
 @@
 expression HANDLE;
@@ -27,42 +8,22 @@ typedef __u8;
 
 (
   %alloc%(HANDLE,
--	sizeof(u8) * (COUNT)
+-	((sizeof(u8))) * ((COUNT))
 +	COUNT
   , ...)
 |
   %alloc%(HANDLE,
--	sizeof(__u8) * (COUNT)
+-	((sizeof(__u8))) * ((COUNT))
 +	COUNT
   , ...)
 |
   %alloc%(HANDLE,
--	sizeof(char) * (COUNT)
+-	((sizeof(char))) * ((COUNT))
 +	COUNT
   , ...)
 |
   %alloc%(HANDLE,
--	sizeof(unsigned char) * (COUNT)
-+	COUNT
-  , ...)
-|
-  %alloc%(HANDLE,
--	sizeof(u8) * COUNT
-+	COUNT
-  , ...)
-|
-  %alloc%(HANDLE,
--	sizeof(__u8) * COUNT
-+	COUNT
-  , ...)
-|
-  %alloc%(HANDLE,
--	sizeof(char) * COUNT
-+	COUNT
-  , ...)
-|
-  %alloc%(HANDLE,
--	sizeof(unsigned char) * COUNT
+-	((sizeof(unsigned char))) * ((COUNT))
 +	COUNT
   , ...)
 )
@@ -78,42 +39,19 @@ constant COUNT_CONST;
 
 (
   %alloc%(HANDLE,
--	sizeof(TYPE) * (COUNT_ID)
+-	((sizeof(TYPE))) * ((COUNT_ID))
 +	array_size(COUNT_ID, sizeof(TYPE))
   , ...)
-|
   %alloc%(HANDLE,
--	sizeof(TYPE) * COUNT_ID
-+	array_size(COUNT_ID, sizeof(TYPE))
-  , ...)
-|
-  %alloc%(HANDLE,
--	sizeof(TYPE) * (COUNT_CONST)
+-	((sizeof(TYPE))) * ((COUNT_CONST))
 +	array_size(COUNT_CONST, sizeof(TYPE))
   , ...)
-|
   %alloc%(HANDLE,
--	sizeof(TYPE) * COUNT_CONST
-+	array_size(COUNT_CONST, sizeof(TYPE))
-  , ...)
-|
-  %alloc%(HANDLE,
--	sizeof(THING) * (COUNT_ID)
+-	((sizeof(THING))) * ((COUNT_ID))
 +	array_size(COUNT_ID, sizeof(THING))
   , ...)
-|
   %alloc%(HANDLE,
--	sizeof(THING) * COUNT_ID
-+	array_size(COUNT_ID, sizeof(THING))
-  , ...)
-|
-  %alloc%(HANDLE,
--	sizeof(THING) * (COUNT_CONST)
-+	array_size(COUNT_CONST, sizeof(THING))
-  , ...)
-|
-  %alloc%(HANDLE,
--	sizeof(THING) * COUNT_CONST
+-	((sizeof(THING))) * ((COUNT_CONST))
 +	array_size(COUNT_CONST, sizeof(THING))
   , ...)
 )
@@ -125,6 +63,6 @@ identifier SIZE, COUNT;
 @@
 
   %alloc%(HANDLE,
--	SIZE * COUNT
+-	((SIZE)) * ((COUNT))
 +	array_size(COUNT, SIZE)
   , ...)
