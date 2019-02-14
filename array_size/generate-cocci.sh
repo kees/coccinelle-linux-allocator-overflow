@@ -84,6 +84,7 @@ f2fs_kmalloc	f2fs_kmalloc(HANDLE,
 f2fs_kzalloc	f2fs_kzalloc(HANDLE,
 f2fs_kvmalloc	f2fs_kvmalloc(HANDLE,
 f2fs_kvzalloc	f2fs_kvzalloc(HANDLE,
+memdup_user	memdup_user(HANDLE,
 EOM
 	first=n
 done
