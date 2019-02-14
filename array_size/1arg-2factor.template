@@ -55,8 +55,7 @@ constant COUNT_CONST;
   , ...)
 |
   %alloc%(HANDLE,
--	(sizeof(TYPE)) * (COUNT_CONST)
-+	array_size(COUNT_CONST, sizeof(TYPE))
+	(sizeof(TYPE)) * (COUNT_CONST)
   , ...)
 |
   %alloc%(HANDLE,
@@ -65,8 +64,7 @@ constant COUNT_CONST;
   , ...)
 |
   %alloc%(HANDLE,
--	(sizeof(THING)) * (COUNT_CONST)
-+	array_size(COUNT_CONST, sizeof(THING))
+	(sizeof(THING)) * (COUNT_CONST)
   , ...)
 )
 

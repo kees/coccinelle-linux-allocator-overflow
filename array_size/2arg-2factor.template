@@ -56,11 +56,9 @@ constant COUNT_CONST;
 +	COUNT_ID, sizeof(TYPE)
   , ...)
 |
-- %alloc%
-+ %calloc%
+  %alloc%
   (HANDLE,
--	(sizeof(TYPE)) * (COUNT_CONST)
-+	COUNT_CONST, sizeof(TYPE)
+	(sizeof(TYPE)) * (COUNT_CONST)
   , ...)
 |
 - %alloc%
@@ -70,11 +68,9 @@ constant COUNT_CONST;
 +	COUNT_ID, sizeof(THING)
   , ...)
 |
-- %alloc%
-+ %calloc%
+  %alloc%
   (HANDLE,
--	(sizeof(THING)) * (COUNT_CONST)
-+	COUNT_CONST, sizeof(THING)
+	(sizeof(THING)) * (COUNT_CONST)
   , ...)
 )
 
