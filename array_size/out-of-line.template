@@ -4,34 +4,36 @@ identifier alloc =~ ".*alloc.*";
 constant C1, C2, C3;
 identifier ISTRIDE, ISIZE, ICOUNT;
 expression ESTRIDE, ESIZE, ECOUNT;
-expression PRODUCT, OTHER;
+expression PRODUCT, OTHER, TYPE;
+expression E2, E3;
 @@
 
 (
-  PRODUCT = (C1) * (C2) * (C3)
+  PRODUCT = ((C1) * (C2) * (C3))
 |
-  PRODUCT = (C1) * (C2)
+  PRODUCT = ((C1) * (C2))
 |
-- PRODUCT = (ICOUNT) * (ISTRIDE) * (ISIZE)
+- PRODUCT = ((ICOUNT) * (ISTRIDE) * (ISIZE))
 + PRODUCT = array3_size(ICOUNT, ISTRIDE, ISIZE)
 |
-- PRODUCT = (ICOUNT) * (ISTRIDE) * (ESIZE)
+- PRODUCT = ((ICOUNT) * (ISTRIDE) * (ESIZE))
 + PRODUCT = array3_size(ICOUNT, ISTRIDE, ESIZE)
 |
-- PRODUCT = (ICOUNT) * (ESTRIDE) * (ESIZE)
+- PRODUCT = ((ICOUNT) * (ESTRIDE) * (ESIZE))
 + PRODUCT = array3_size(ICOUNT, ESTRIDE, ESIZE)
 |
-- PRODUCT = (ECOUNT) * (ESTRIDE) * (ESIZE)
+- PRODUCT = ((ECOUNT) * (ESTRIDE) * (ESIZE))
 + PRODUCT = array3_size(ECOUNT, ESTRIDE, ESIZE)
 |
-- PRODUCT = (ICOUNT) * (ISIZE)
-+ PRODUCT = array_size(ICOUNT, ISTRIDE, ISIZE)
+- PRODUCT = ((ICOUNT) * (ISIZE))
++ PRODUCT = array_size(ICOUNT, ISIZE)
 |
-- PRODUCT = (ICOUNT) * (ESIZE)
+- PRODUCT = ((ICOUNT) * (ESIZE))
 + PRODUCT = array_size(ICOUNT, ESIZE)
 |
-- PRODUCT = (ECOUNT) * (ESIZE)
+- PRODUCT = ((ECOUNT) * (ESIZE))
 + PRODUCT = array_size(ECOUNT, ESIZE)
 )
   ... when != PRODUCT = OTHER
+      when any
   alloc(..., PRODUCT, ...)

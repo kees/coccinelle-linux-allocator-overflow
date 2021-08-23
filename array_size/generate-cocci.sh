@@ -88,3 +88,6 @@ memdup_user	memdup_user(HANDLE,
 EOM
 	first=n
 done
+
+cp out-of-line.template out-of-line.cocci
+echo "out-of-line" >> order.txt

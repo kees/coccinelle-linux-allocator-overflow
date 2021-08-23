@@ -30,7 +30,9 @@ for i in $(cat "$BASE"/order.txt); do
 		$ARGS \
 		--cocci-file $BASE/$i.cocci \
 		--dir . \
-		2>"$OUT"/$i.err | filterdiff -p1 -x 'tools/*' | \
+		2>"$OUT"/$i.err | \
+		filterdiff -p1 -x 'tools/*' | \
+		filterdiff -p1 -x 'scripts/*' | \
 		tee "$OUT"/$i.patch
 	grep -v 'files match' "$OUT"/$i.err
 	if [ -s "$OUT"/$i.patch ]; then
