@@ -79,6 +79,7 @@ vmalloc_node	vmalloc_node
 vzalloc_node	vzalloc_node
 kvmalloc_node	kvmalloc_node
 kvzalloc_node	kvzalloc_node
+krealloc	krealloc(HANDLE,
 sock_kmalloc	sock_kmalloc(HANDLE,
 f2fs_kmalloc	f2fs_kmalloc(HANDLE,
 f2fs_kzalloc	f2fs_kzalloc(HANDLE,
