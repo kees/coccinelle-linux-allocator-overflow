@@ -1,0 +1,2 @@
+- Minimize constant * sizeof() replacements
+- Make out-of-line.template meaningful
