@@ -1,2 +1,3 @@
 array_size/*.cocci
+!array_size/*-all.cocci
 array_size/order.txt
